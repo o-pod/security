@@ -4,8 +4,8 @@
 # Source:       https://github.com/o-pod/security
 #
 # Description:  Checking SSL certificates for revocation using CRL
-# Version:      0.2.0
-# Date:         Aug 2018
+# Version:      0.2.1
+# Date:         Oct 2018
 # Depends:      OpenSSL, Wget
 #
 # Author:       Oleg Podgaisky (o-pod)
@@ -53,7 +53,7 @@ else
         myExit 2 "ERROR: Unknown domain ${domain}"
     fi
     crt_file="${path}/${domain}.crt"
-    echo -n | openssl s_client -connect ${domain}:443 2>&1 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > ${crt_file}
+    echo -n | openssl s_client -connect ${domain}:443 -servername ${domain} 2>&1 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > ${crt_file}
     crt_file_size=$(wc -c < "${crt_file}")
     if [ $crt_file_size -lt 100 ]; then
         myExit 2 "ERROR: Failed to get certificate from domain ${domain}"
