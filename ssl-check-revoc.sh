@@ -4,8 +4,8 @@
 # Source:       https://github.com/o-pod/security
 #
 # Description:  Checking SSL certificates for revocation using CRL
-# Version:      0.2.1
-# Date:         Oct 2018
+# Version:      0.2.2
+# Date:         Apr 2023
 # Depends:      OpenSSL, Wget
 #
 # Author:       Oleg Podgaisky (o-pod)
@@ -44,7 +44,7 @@ if [ -n "${file}" ]; then
     fi
 # from DOMAIN:
 else
-    domain=$(echo ${*} | sed 's/\-[a-z]//gi' | sed 's/ //g')
+    domain=$(echo ${*} | sed 's/\-\b[a-z]\b//gi' | sed 's/ //g')
     if [ -z "${domain}" ]; then
         myExit 2 "ERROR: Domain is not defined"
     fi
